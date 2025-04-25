@@ -1,15 +1,44 @@
 #ifndef PRNG_BASE_HPP
 #define PRNG_BASE_HPP
 
+#include <cstdint>
+#include <utility>
+#include <atomic>
+
 template <typename Derived>
-struct PRNG {
-	void seed(uint64_t) {
-		static_cast<Derived*>(this)->seedImpl();
+class PRNG {    
+
+public:
+    PRNG() = default;
+    
+    PRNG(uint64_t inSeed) {
+        m_seed.store(inSeed, std::memory_order_relaxed);
+    };
+
+	inline void seed(uint64_t inSeed) {
+		static_cast<Derived*>(this)->seedImpl(inSeed);
 	}
 
-	uint64_t next() {
-		return statics_cast<Derived*>(this)->nextImpl();
+	inline uint64_t next() {
+		return static_cast<Derived*>(this)->nextImpl();
 	}
+
+    uint64_t next(uint64_t min, uint64_t max) {
+        if (min > max) std::swap(min, max);
+        if (min == max) return min;
+
+        uint64_t range {max - min + 1};
+        uint64_t limit {UINT64_MAX - (UINT64_MAX % range)};
+
+        while (true) {
+            uint64_t r {next()};
+            if (r < limit)
+                return min + (r % range);
+        }
+    }
+
+protected:
+    std::atomic<uint64_t> m_seed;
 };
 
 #endif
