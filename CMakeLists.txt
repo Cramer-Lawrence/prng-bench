@@ -6,45 +6,28 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Enable visualization
-option(ENABLE_VISUALIZATION "Enable Matplot++ plotting" OFF)
+# Define executable
+add_executable(prng-bench src/main.cpp)
 
-# Define the prng lib
-add_library(prng INTERFACE)
-target_include_directories(prng INTERFACE
+target_link_libraries(prng-bench
+    prng
+)
+
+include_directories(
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+# Define prng library
+add_library(prng
+    src/prng/lcg.cpp
+    src/prng/mt19937.cpp
+)
+
+target_include_directories(prng PUBLIC
     ${CMAKE_SOURCE_DIR}/include/prng
 )
 
-# Define the seeder lib
-add_library(seeder INTERFACE)
-target_include_directories(seeder INTERFACE
-    ${CMAKE_SOURCE_DIR}/include/seeder
-)
-
-# Define the benchmark lib
-add_library(benchmark INTERFACE)
-target_include_directories(benchmark INTERFACE
+# Define benchmark library
+target_include_directories(prng-bench PUBLIC
     ${CMAKE_SOURCE_DIR}/include/benchmark
-)
-
-# Visualization (Conditional)
-if(ENABLE_VISUALIZATION)
-    add_library(visualization INTERFACE)
-    target_include_directories(visualization INTERFACE
-        ${CMAKE_SOURCE_DIR}/include/visualization
-    )
-endif()
-
-# Executable
-add_executable(prng-bench src/main.cpp)
-
-# Include directories for the executable
-target_include_directories(prng-bench PRIVATE ${PROJECT_SOURCE_DIR}/include)
-
-# Link against libs
-target_link_libraries(prng-bench
-    prng
-    seeder
-    benchmark
-    ${visualization}  # This will only be linked if ENABLE_VISUALIZATION is ON
 )
