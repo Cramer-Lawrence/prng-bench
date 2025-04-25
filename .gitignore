@@ -1,0 +1,59 @@
+# Build directories
+/build/
+bin/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# IDE-specific files
+.vscode/
+.idea/
+*.user
+*.userprefs
+*.suo
+*.swp
+*.bak
+*.tmp
+
+# Compiled object files, static libraries, and executables
+*.o
+*.a
+*.so
+*.out
+*.exe
+*.dylib
+*.pdb
+*.lib
+*.dll
+
+# Coverage and profiling data
+*.gcda
+*.gcno
+*.gcov
+*.lcov
+
+# Dependency files
+*.d
+
+# C++ precompiled headers (optional)
+*.gch
+
+# CMake build artifacts
+*.cmake
+
+# Matplot++ plot images (if stored locally)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Debug or Release directories
+debug/
+release/
+
+# Visual Studio Code workspace settings
+.vscode/
+
