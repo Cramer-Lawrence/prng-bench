@@ -11,6 +11,7 @@ add_executable(prng-bench src/main.cpp)
 
 target_link_libraries(prng-bench
     prng
+    benchmark
 )
 
 include_directories(
@@ -21,6 +22,9 @@ include_directories(
 add_library(prng
     src/prng/lcg.cpp
     src/prng/mt19937.cpp
+    src/prng/pcg32.cpp
+    src/prng/split_mix64.cpp
+    src/prng/xor_shift.cpp
 )
 
 target_include_directories(prng PUBLIC
@@ -28,6 +32,10 @@ target_include_directories(prng PUBLIC
 )
 
 # Define benchmark library
-target_include_directories(prng-bench PUBLIC
+add_library(benchmark
+    src/benchmark/benchmark.cpp
+)
+
+target_include_directories(benchmark PUBLIC
     ${CMAKE_SOURCE_DIR}/include/benchmark
 )

@@ -1,0 +1,20 @@
+#include "xor_shift.hpp"
+
+void XORShift::seedImpl(uint64_t inSeed) {
+
+    inSeed == 0 ? m_seed.store(
+            defaultSeed, std::memory_order_relaxed) 
+            : m_seed.store(inSeed, std::memory_order_relaxed);
+}
+
+uint64_t XORShift::nextImpl() {
+
+    uint64_t state {m_seed.load(std::memory_order_relaxed)};
+    
+    state ^= (state << 13);
+    state ^= (state >> 7);
+    state ^= (state << 17);
+
+    m_seed.store(state, std::memory_order_relaxed);
+    return state;
+}
