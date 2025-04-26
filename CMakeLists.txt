@@ -34,6 +34,7 @@ target_include_directories(prng PUBLIC
 # Define benchmark library
 add_library(benchmark
     src/benchmark/benchmark.cpp
+    src/benchmark/benchmark_runner.cpp
 )
 
 target_include_directories(benchmark PUBLIC

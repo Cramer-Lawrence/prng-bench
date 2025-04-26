@@ -1,43 +1,26 @@
 #include "benchmark.hpp"
 
-void Benchmark::runMultiThreadBenchmark(
-        const std::string& label,
-        std::function<void(size_t, const uint64_t&, const uint64_t&)> benchmarkFunc,
-        size_t iterationsPerThread,
-        size_t numThreads,
-        const uint64_t& min,
-        const uint64_t& max) {
+DistributionResult Benchmark::calculateDistribution(const std::vector<uint64_t>& values, uint64_t rangeMin, uint64_t rangeMax) {
 
-    std::vector<std::thread> threads;
-    auto start {Time::now()};
+    size_t range = rangeMax - rangeMin + 1;
+    std::vector<size_t> counts(range, 0);
 
-    for (size_t t = 0; t < numThreads; ++t) {
-        threads.emplace_back(benchmarkFunc, iterationsPerThread, min, max);
+    for (auto v : values) {
+        size_t index = static_cast<size_t>((v - rangeMin) % range);
+        counts[index]++;
     }
 
-    for (auto& th : threads) {
-        th.join();
+    double expected {static_cast<double>(values.size()) / range};
+    double sumDeviation {0.0};
+    double maxDeviation {0.0};
+
+    for (auto c : counts) {
+        double deviation {std::abs(c - expected) / expected};
+        sumDeviation += deviation;
+        if(deviation > maxDeviation) {
+            maxDeviation = deviation;
+        }
     }
 
-    auto end {Time::now()};
-    auto duration {DDuration(end - start).count()};
-
-    std::cout << label << ": " << duration << " seconds\n";
-}
-
-void Benchmark::runSingleThreadBenchmark(
-        const std::string& label,
-        std::function<void(size_t, const uint64_t&, const uint64_t&)> benchmarkFunc, 
-        size_t totalIterations,
-        const uint64_t& min,
-        const uint64_t& max) {
-
-    auto start {Time::now()};
-
-    benchmarkFunc(totalIterations, min, max);
-
-    auto end {Time::now()};
-    auto duration {DDuration(end - start).count()};
-    
-    std::cout << label << ": " << duration << " seconds\n";
+    return {sumDeviation / range, maxDeviation};
 }
