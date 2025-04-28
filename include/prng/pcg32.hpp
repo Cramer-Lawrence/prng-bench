@@ -12,7 +12,7 @@ public:
     uint32_t next32();
 
 private:
-    std::atomic<uint64_t> m_inc;
+    uint64_t m_inc;
 
     const uint64_t m_multiplier {6364136223846793005ULL}; // from pcg32 research paper
     const uint64_t m_incrementalValue {0xda3e39cb94b95bdbULL};

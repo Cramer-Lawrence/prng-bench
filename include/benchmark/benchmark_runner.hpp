@@ -2,6 +2,8 @@
 #define BENCHMARK_RUNNER_HPP
 
 #include "benchmark.hpp"
+#include "thread_safe_wrap.hpp"
+
 #include <chrono>
 #include <vector>
 #include <string>
@@ -9,6 +11,7 @@
 
 using Time = std::chrono::high_resolution_clock;
 using DDuration = std::chrono::duration<double>;
+
 
 struct BenchmarkResult {
     
@@ -76,10 +79,9 @@ private:
 
         auto start {Time::now()};
         std::vector<std::thread> threads;
-
+        prng::ThreadSafePRNG<PRNG> shared{12345};
         for(size_t t {0}; t < m_numThreads; ++t) {
             threads.emplace_back([&, t]() {
-                static PRNG shared{12345}; // Static -> bad (shared)
                 for (size_t i = 0; i < m_iterationsPerThread; ++i) {
                     allValues[t].push_back(shared.next(m_min, m_max));
                 }

@@ -56,4 +56,5 @@ add_library(benchmark
 
 target_include_directories(benchmark PUBLIC
     ${CMAKE_SOURCE_DIR}/include/benchmark
+    ${CMAKE_SOURCE_DIR}/include/prng
 )

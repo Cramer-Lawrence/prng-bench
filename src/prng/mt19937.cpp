@@ -2,22 +2,22 @@
 
 void MT19937::seedImpl(uint64_t inSeed) {
 
-    index = stateArraySize;
-    MT[0] = m_seed.load(std::memory_order_relaxed);
+    m_index = m_stateArraySize;
+    m_MT[0] = m_seed;
 
-    for (int i = 1; i < stateArraySize; i++) {
-        MT[i] = magicMultiplier * (MT[i - 1] ^ (MT[i - 1] >> (wordSize - 2))) + i;
+    for (int i = 1; i < m_stateArraySize; i++) {
+        m_MT[i] = m_magicMultiplier * (m_MT[i - 1] ^ (m_MT[i - 1] >> (m_wordSize - 2))) + i;
     }
 }
 
 uint32_t MT19937::next32() {
     
-    if (index >= stateArraySize) {
-        if (index > stateArraySize) seed(5489); // default seed
+    if (m_index >= m_stateArraySize) {
+        if (m_index > m_stateArraySize) seed(5489); // default seed
         twist();
     }
 
-    uint64_t y = MT[index++];
+    uint64_t y = m_MT[m_index++];
 
     y ^= (y >> u) & d;
     y ^= (y << s) & b;
@@ -34,11 +34,11 @@ uint64_t MT19937::nextImpl() {
 
 void MT19937::twist() {
 
-    for (int i = 0; i < stateArraySize; i++) {
-        uint32_t x {(MT[i] & 0x80000000) + (MT[(i + 1) % stateArraySize] & 0x7fffffff)};
+    for (int i = 0; i < m_stateArraySize; i++) {
+        uint32_t x {(m_MT[i] & 0x80000000) + (m_MT[(i + 1) % m_stateArraySize] & 0x7fffffff)};
         uint32_t xA {x >> 1};
-        if (x % 2 != 0) xA ^= randomImprovementConst;
-        MT[i] = MT[(i + recurrenceOffset) % stateArraySize] ^ xA;
+        if (x % 2 != 0) xA ^= m_randomImprovementConst;
+        m_MT[i] = m_MT[(i + m_recurrenceOffset) % m_stateArraySize] ^ xA;
     }
-    index = 0;
+    m_index = 0;
 }

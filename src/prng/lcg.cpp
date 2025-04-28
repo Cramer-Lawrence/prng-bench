@@ -2,11 +2,11 @@
 
 void LCG::seedImpl(uint64_t inSeed) {
 
-    m_seed.store(inSeed, std::memory_order_relaxed);
+    m_seed = inSeed;
 }
 
 uint64_t LCG::nextImpl() {
 
-    m_seed.store(((m_seed.load(std::memory_order_relaxed) * a) + c) % m, std::memory_order_relaxed);
+    m_seed = (((m_seed * a) + c) % m);
     return m_seed;
 }

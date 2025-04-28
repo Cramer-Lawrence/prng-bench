@@ -3,7 +3,6 @@
 
 #include <cstdint>
 #include <utility>
-#include <atomic>
 
 template <typename Derived>
 class PRNG {    
@@ -11,9 +10,8 @@ class PRNG {
 public:
     PRNG() = default;
     
-    PRNG(uint64_t inSeed) {
-        m_seed.store(inSeed, std::memory_order_relaxed);
-    };
+    PRNG(uint64_t inSeed)
+        : m_seed{inSeed} {}
 
 	inline void seed(uint64_t inSeed) {
 		static_cast<Derived*>(this)->seedImpl(inSeed);
@@ -38,7 +36,7 @@ public:
     }
 
 protected:
-    std::atomic<uint64_t> m_seed;
+    uint64_t m_seed;
 };
 
 #endif
