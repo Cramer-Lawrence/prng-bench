@@ -9,13 +9,30 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Define executable
 add_executable(prng-bench src/main.cpp)
 
+# External libraries
+include(FetchContent)
+
+FetchContent_Declare(
+    cli11_proj
+    QUIET
+    GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
+    GIT_TAG v2.5.0
+)
+
+FetchContent_MakeAvailable(
+    cli11_proj
+)
+
+# Include directories for project headers
+target_include_directories(prng-bench PRIVATE 
+    ${CMAKE_SOURCE_DIR}/include
+    CLI11::CLI11
+)
+
+# Link libraries
 target_link_libraries(prng-bench
     prng
     benchmark
-)
-
-include_directories(
-    ${PROJECT_SOURCE_DIR}/include
 )
 
 # Define prng library
