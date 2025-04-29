@@ -20,6 +20,8 @@ struct BenchmarkResult {
     double timeSeconds {};
     double avgDeviation {};
     double maxDeviation {};
+    size_t iterations {};
+    size_t threadsUsed {};
 };
 
 class BenchmarkRunner {
@@ -27,31 +29,54 @@ class BenchmarkRunner {
 public:
 
     BenchmarkRunner(
-            size_t iterationsPerThread,
-            size_t numThreads,
+            std::size_t lowIteration,
+            std::size_t highIteration,
+            std::size_t iterationSpread,
+            std::size_t numThreads,
             const uint64_t& min,
             const uint64_t& max)
-        : m_iterationsPerThread{iterationsPerThread},
+        : m_lowIteration{lowIteration},
+        m_highIteration{highIteration},
+        m_iterationSpread{iterationSpread},
         m_numThreads{numThreads},
         m_min{min},
         m_max{max} {};
     
     template <typename PRNG>
     void runBenchmark(const std::string& prngName) {
-        m_results.push_back(benchmarkSingleThread<PRNG>(prngName));
-        m_results.push_back(benchmarkShared<PRNG>(prngName));
-        m_results.push_back(benchmarkThreadLocal<PRNG>(prngName));
+
+        m_iterationsPerThread = m_lowIteration;
+        m_iterationDelta = ((m_highIteration + 1.f) - m_lowIteration) / m_iterationSpread;
+
+        while(m_iterationsPerThread <= m_highIteration) {
+            
+            m_results.push_back(benchmarkSingleThread<PRNG>(prngName));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            m_results.push_back(benchmarkShared<PRNG>(prngName));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            m_results.push_back(benchmarkThreadLocal<PRNG>(prngName));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            
+            m_iterationsPerThread += m_iterationDelta;
+        }
     }
 
     void reportResults() const noexcept;
     void exportCSV(const std::string& filename) const;
 
 private:
-    size_t m_iterationsPerThread;
-    size_t m_numThreads;
+    std::size_t m_lowIteration {};
+    std::size_t m_highIteration {};
+    std::size_t m_iterationSpread {};
+    std::size_t m_iterationsPerThread {};
+    std::size_t m_numThreads {};
 
-    const uint64_t& m_min;
-    const uint64_t& m_max;
+    double m_iterationDelta {};
+
+    const uint64_t& m_min {};
+    const uint64_t& m_max {};
     std::vector<BenchmarkResult> m_results;
 
     template <typename PRNG>
@@ -70,7 +95,7 @@ private:
         double duration {DDuration(end - start).count()};
         auto dist {Benchmark::calculateDistribution(values, m_min, m_max)};
 
-        return {prngName, "Single Thread", duration, dist.avg, dist.max};
+        return {prngName, "Single Thread", duration, dist.avg, dist.max, m_iterationsPerThread * m_numThreads, 1 /*threads*/};
     }
 
     template <typename PRNG>
@@ -97,7 +122,7 @@ private:
         for (auto& v : allValues) combined.insert(combined.end(), v.begin(), v.end());
         auto dist {Benchmark::calculateDistribution(combined, m_min, m_max)};
 
-        return {prngName, "Shared", duration, dist.avg, dist.max};           
+        return {prngName, "Shared", duration, dist.avg, dist.max, m_iterationsPerThread * m_numThreads, m_numThreads};           
     }
 
     template <typename PRNG>
@@ -125,7 +150,7 @@ private:
         for (auto& v : allValues) combined.insert(combined.end(), v.begin(), v.end());
         auto dist {Benchmark::calculateDistribution(combined, m_min, m_max)};
 
-        return {prngName, "Thread-Local", duration, dist.avg, dist.max};
+        return {prngName, "Thread-Local", duration, dist.avg, dist.max, m_iterationsPerThread * m_numThreads, m_numThreads};
     }
 };
 

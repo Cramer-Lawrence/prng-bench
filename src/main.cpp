@@ -25,7 +25,9 @@ int main(int argc, char** argv) {
 
     // Translate the cli parse into the benchmark runner
     BenchmarkRunner runner {
-        opts.iterations,
+        opts.lowIteration,
+        opts.highIteration,
+        opts.iterationSpread,
         threads,
         opts.minRange,
         opts.maxRange

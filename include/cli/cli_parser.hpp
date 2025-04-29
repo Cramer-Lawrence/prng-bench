@@ -11,7 +11,9 @@ namespace cli {
 
 struct Options {
     
-    std::size_t     iterations      {cli::iterations};
+    std::size_t     lowIteration   {cli::lowIteration};
+    std::size_t     highIteration  {cli::highIteration};
+    std::size_t     iterationSpread {cli::iterationSpread};
     std::size_t     numThreads      {cli::numThreads};
     uint64_t        minRange        {cli::minRange};
     uint64_t        maxRange        {cli::maxRange};

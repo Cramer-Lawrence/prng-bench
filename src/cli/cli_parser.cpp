@@ -5,11 +5,17 @@ namespace cli {
 CLIParser::CLIParser() 
     : m_cli11("prng-bench", "Quant-style PRNG benchmarking tool") 
 {   
-    m_cli11.add_option("-i, --iterations", m_args.iterations, "Number of iterations per thread for the PRNGs to run. If running on 1 thread: iterations * numThreads = iterations for single thread.")
-        ->default_str(std::to_string(cli::iterations));
-
     m_cli11.add_option("-t, --threads", m_args.numThreads, "Number of threads for multithread operations. If number is higher than available, this will change to available threads.")
         ->default_str(std::to_string(cli::numThreads));        
+
+    m_cli11.add_option("-o, --low_iteration", m_args.lowIteration, "Starting point for PRNG iterations.")
+        ->default_str(std::to_string(cli::lowIteration));
+
+    m_cli11.add_option("-i, --high_iteration", m_args.highIteration, "Ending point for PRNG iterations.")
+        ->default_str(std::to_string(cli::highIteration));
+
+    m_cli11.add_option("-s, --iteration_spread", m_args.iterationSpread, "How many runs between the starting iteration and ending iteration incrementing until reaching the highIteration")
+        ->default_str(std::to_string(cli::iterationSpread));
 
     m_cli11.add_option("-n, --min_range", m_args.minRange, "Minimum number for the PRNG range.")
         ->default_str(std::to_string(cli::minRange));
