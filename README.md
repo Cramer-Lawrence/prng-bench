@@ -19,17 +19,21 @@ Each is tested across a configurable range of iteration sizes and thread counts,
 ## 📊 Sample Results (Charts)
 
 ### Time vs Iterations (All PRNGs - Threading Models)
-![Time All](./charts/Avg Deviation % vs Iterations (All).svg)
+![Time vs Iterations for Single Threaded Operations](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(Single%20Thread).svg)
+
+![Time vs Iterations for Multi-threaded Shared PRNG](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(Single%20Thread).svg)
+
+![Time vs Iterations for Multi-threaded Thread-Location PRNG](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(Thread-Local%20Multithread).svg)
 
 ### Average Deviation % vs Iterations (All PRNGs)
-![Deviation All](./charts/Avg Deviation % vs Iterations(All).svg)
+![Deviation All](https://github.com/Cramer-Lawrence/prng-bench/blob/677c444be83021629a681c6a46089891b4a8a5f8/charts/Avg%20Deviation%20%25%20vs%20Iterations%20(All).svg)
 
 ### PRNG-Specific Time Charts:
-- [LCG](./charts/Time-vs-Iterations-LCG.svg)
-- [MT19937](./charts/Time-vs-Iterations-MT19937.svg)
-- [PCG32](./charts/Time-vs-Iterations-PCG32.svg)
-- [SplitMix64](./charts/Time-vs-Iterations-Split-Mix-64.svg)
-- [XOR Shift](./charts/Time-vs-Iterations-XOR-Shift.svg)
+![LCG](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(LCG).svg)
+![MT19937](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(MT19937).svg)
+![PCG32](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(PCG32).svg)
+![SplitMix64](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(Split%20Mix%2064).svg)
+![XOR Shift](./charts/Time-vs-Iterations-XOR-Shift.svg)
 
 ---
 
