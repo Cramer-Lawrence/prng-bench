@@ -48,7 +48,6 @@ Makefile
 *.jpg
 *.jpeg
 *.gif
-*.svg
 
 # Debug or Release directories
 debug/

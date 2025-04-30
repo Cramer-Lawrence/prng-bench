@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     runner.runBenchmark<XORShift>("XOR Shift");
 
     // Print out the results to the console
-    runner.reportResults();
+    //runner.reportResults();
 
     if (opts.exportCSV) {
         runner.exportCSV(opts.fileName);
