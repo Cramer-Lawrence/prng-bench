@@ -19,10 +19,10 @@ Each is tested across a configurable range of iteration sizes and thread counts,
 ## 📊 Sample Results (Charts)
 
 ### Time vs Iterations (All PRNGs - Threading Models)
-![Time All](./charts/Time-vs-Iterations-All.svg)
+![Time All](./charts/Avg Deviation % vs Iterations (All).svg)
 
 ### Average Deviation % vs Iterations (All PRNGs)
-![Deviation All](./charts/Avg-Deviation-All.svg)
+![Deviation All](./charts/Avg Deviation % vs Iterations(All).svg)
 
 ### PRNG-Specific Time Charts:
 - [LCG](./charts/Time-vs-Iterations-LCG.svg)
