@@ -33,7 +33,7 @@ Each is tested across a configurable range of iteration sizes and thread counts,
 ![MT19937](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(MT19937).svg)
 ![PCG32](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(PCG32).svg)
 ![SplitMix64](https://github.com/Cramer-Lawrence/prng-bench/blob/d14eaba67c50de8f51a5f9fc931984c81a24b0ec/charts/Time%20vs%20Iterations%20(Split%20Mix%2064).svg)
-![XOR Shift](./charts/Time-vs-Iterations-XOR-Shift.svg)
+![XOR Shift](https://github.com/Cramer-Lawrence/prng-bench/blob/e837b5a57f3de40c9a3b9cb0ef96c6dda0584803/charts/Time%20vs%20Iterations%20(XOR%20Shift).svg)
 
 ---
 
