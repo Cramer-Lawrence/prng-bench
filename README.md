@@ -1,7 +1,7 @@
 
 ## 🚀 Overview
 
-`qprng-bench` is a C++ benchmarking suite designed to evaluate both **performance** and **distribution quality** across various pseudo-random number generator (PRNG) algorithms under different threading models. It's engineered with **thread-local vs shared vs single-threaded** configurations to showcase real-world performance differences, particularly in multithreaded Quant Dev contexts.
+`prng-bench` is a C++ benchmarking suite designed to evaluate both **performance** and **distribution quality** across various pseudo-random number generator (PRNG) algorithms under different threading models. It's engineered with **thread-local vs shared vs single-threaded** configurations to showcase real-world performance differences, particularly in multithreaded Quant Dev contexts.
 
 **PRNGs Benchmarked:**
 - Linear Congruential Generator (LCG)
